@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "ded5d5bc-efba-462a-b1e4-128fc0e29ef0": {
+      "ProjectGuid": "ded5d5bc-efba-462a-b1e4-128fc0e29ef0",
+      "DisplayName": "SalesAPI",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
