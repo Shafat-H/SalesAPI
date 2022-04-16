@@ -59,14 +59,53 @@ namespace SalesAPI.Repository
             throw new System.NotImplementedException();
         }
 
-        public Task<List<TbItemDTO>> getAllItem()
+        public async Task<List<TbItemDTO>> getAllItem()
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var data = await Task.FromResult((from a in rDbContext.TbItem
+                                                  where a.IsActive == true
+                                                  select new TbItemDTO
+                                                  {
+                                                      ItemId = a.ItemId,
+                                                      ItemName = a.ItemName,
+                                                      Uomid = a.Uomid,
+                                                      Uomname = a.Uomname
+
+                                                  }).ToList());
+                return data;
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
 
-        public Task<TbItemDTO> getItem(int id)
+        public Task<TbItemDTO> getItemById(long id)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var data = Task.FromResult((from a in rDbContext.TbItem
+                                            where a.IsActive == true && a.ItemId == id
+                                            select new TbItemDTO
+                                            {
+                                                ItemId = a.ItemId,
+                                                ItemName = a.ItemName,
+                                                Uomid = a.Uomid,
+                                                Uomname = a.Uomname
+                                            }).FirstOrDefault());
+                if(data == null)
+                {
+                    throw new Exception("Item Not Found");
+                }
+                return data;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public Task<MessageHelper> UpdateItem(TbItemDTO item)

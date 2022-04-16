@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace SalesAPI.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class TbItemController : ControllerBase
     {
@@ -35,6 +34,34 @@ namespace SalesAPI.Controllers
             var data = await _repository.CreateMultipleItems(items);
             return data;
         }
+
+
+        [HttpGet]
+        [Route("getAllItem")]
+        public async Task<IActionResult> getAllItem()
+        {
+            var data =await _repository.getAllItem();
+            if(data == null)
+            {
+                return NotFound();
+            }
+            return Ok(data);
+        }
+
+
+        [HttpGet]
+        [Route("getItemById/{id}")]
+        public async Task<IActionResult> getItemById(long id)
+        {
+            var data = await _repository.getItemById(id);
+            if(data == null)
+            {
+                return NotFound();
+            }
+            return Ok(data);
+        }
+
+
         
     }
 }

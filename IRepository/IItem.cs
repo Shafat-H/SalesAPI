@@ -8,7 +8,7 @@ namespace SalesAPI.IRepository
     public interface IItem
     {
         public Task<List<TbItemDTO>> getAllItem();
-        public Task<TbItemDTO> getItem(int id);
+        public Task<TbItemDTO> getItemById(long id);
         public Task<MessageHelper> DeleteItem(int id);
         public Task<MessageHelper> CreateMultipleItems(List<TbItemDTO> create);
         public Task<MessageHelper> CreateItem(TbItemDTO item);
