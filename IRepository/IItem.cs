@@ -9,9 +9,9 @@ namespace SalesAPI.IRepository
     {
         public Task<List<TbItemDTO>> getAllItem();
         public Task<TbItemDTO> getItemById(long id);
-        public Task<MessageHelper> DeleteItem(int id);
+        public Task<MessageHelper> DeleteItem(long id);
         public Task<MessageHelper> CreateMultipleItems(List<TbItemDTO> create);
         public Task<MessageHelper> CreateItem(TbItemDTO item);
-        public Task<MessageHelper> UpdateItem(TbItemDTO item);
+        public Task<MessageHelper> UpdateItem(TbItemUpdateDTO item);
     }
 }

@@ -8,9 +8,9 @@ namespace SalesAPI.IRepository
     public interface ISupplier
     {
         public Task<List<TbSupplierDTO>> getAllSupplier();
-        public Task<TbSupplierDTO> getSupplierById(int id);
-        public Task<MessageHelper> DeleteSupplier(int id);
-        public Task<MessageHelper> CreateSupplier(TbSupplierDTO item);
-        public Task<MessageHelper> UpdateSupplier(TbSupplierDTO item);
+        public Task<TbSupplierDTO> getSupplierById(long id);
+        public Task<MessageHelper> DeleteSupplier(long id);
+        public Task<MessageHelper> CreateSupplier(List<TbSupplierDTO> supplier);
+        public Task<MessageHelper> UpdateSupplier(TbSupplierDTO supplier);
     }
 }

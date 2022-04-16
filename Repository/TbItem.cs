@@ -1,4 +1,5 @@
-﻿using SalesAPI.DbContexts;
+﻿using Microsoft.EntityFrameworkCore;
+using SalesAPI.DbContexts;
 using SalesAPI.DTO;
 using SalesAPI.Helper;
 using SalesAPI.IRepository;
@@ -54,9 +55,30 @@ namespace SalesAPI.Repository
 
         }
 
-        public Task<MessageHelper> DeleteItem(int id)
+        public async Task<MessageHelper> DeleteItem(long id)
         {
-            throw new System.NotImplementedException();
+            try
+            {
+                var find = await wDbContext.TbItem.FindAsync(id);
+                if (find == null)
+                {
+                    throw new Exception("Item Not Found");
+                }
+                wDbContext.TbItem.Remove(find);
+                await wDbContext.SaveChangesAsync();
+
+                return new MessageHelper
+                {
+                    statuscode = 200,
+                    Message = "Delete Successfully"
+                };
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            
         }
 
         public async Task<List<TbItemDTO>> getAllItem()
@@ -108,37 +130,73 @@ namespace SalesAPI.Repository
             }
         }
 
-        public Task<MessageHelper> UpdateItem(TbItemDTO item)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public async Task<MessageHelper> CreateMultipleItems(List<TbItemDTO> create)
         {
-            var list = new List<Models.Write.TbItem>();
-
-            foreach (var itm in create)
+            try
             {
-                var entity = new Models.Write.TbItem
+                var list = new List<Models.Write.TbItem>();
+
+                foreach (var itm in create)
                 {
-                    ItemName = itm.ItemName,
-                    Uomid = itm.Uomid,
-                    Uomname = itm.Uomname,
-                    IsActive = true
+                    var entity = new Models.Write.TbItem
+                    {
+                        ItemName = itm.ItemName,
+                        Uomid = itm.Uomid,
+                        Uomname = itm.Uomname,
+                        IsActive = true
+                    };
+                    list.Add(entity);
+
+                }
+
+                await wDbContext.TbItem.AddRangeAsync(list);
+                await wDbContext.SaveChangesAsync();
+
+
+                return new MessageHelper()
+                {
+                    statuscode = 200,
+                    Message = "Created Successfully"
                 };
-                list.Add(entity);
-
             }
-
-            await wDbContext.TbItem.AddRangeAsync(list);
-            await wDbContext.SaveChangesAsync();
-
-
-            return new MessageHelper()
+            catch (Exception)
             {
-                statuscode = 200,
-                Message = "Created Successfully"
-            };
+
+                throw;
+            }
+            
+        }
+
+        public async Task<MessageHelper> UpdateItem(TbItemUpdateDTO update)
+        {
+            try
+            {
+                var data =await wDbContext.TbItem.Where(x => x.ItemId == update.ItemId).FirstOrDefaultAsync();
+                if (data == null)
+                {
+                    throw new Exception("Item Not Found");
+                }
+                data.ItemName = update.ItemName;
+                data.Uomid = update.Uomid;
+                data.Uomname = update.Uomname;
+                data.IsActive = update.IsActive;
+
+
+                wDbContext.TbItem.Update(data);
+                await wDbContext.SaveChangesAsync();
+
+                return new MessageHelper
+                {
+                    statuscode = 200,
+                    Message = "Successfully Update"
+                };
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
         }
     }
+
 }

@@ -62,6 +62,23 @@ namespace SalesAPI.Controllers
         }
 
 
+        [HttpPut]
+        [Route("UpdateItem")]
+        public async Task<MessageHelper> UpdateItem(TbItemUpdateDTO update)
+        {
+            var data = await _repository.UpdateItem(update);
+            
+            return data;
+        }
+
+        [HttpDelete]
+        [Route("DeleteItem")]
+        public async Task<MessageHelper> DeleteItem(long id)
+        {
+            var data = await _repository.DeleteItem(id);
+            return data;
+        }
+
         
     }
 }
