@@ -32,6 +32,7 @@ namespace SalesAPI
             services.AddControllers();
             services.AddHttpContextAccessor();
             services.AddTransient<IItem, TbItem>();
+            services.AddTransient<IHRrepo, HRTable>();
             services.AddDbContext<ReadDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<WriteDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddSwaggerGen();
@@ -44,7 +45,7 @@ namespace SalesAPI
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c =>{c.SwaggerEndpoint("/swagger/v1/swagger.json", "Employee API V1");});
+                app.UseSwaggerUI(c =>{c.SwaggerEndpoint("/swagger/v1/swagger.json", "Sales API V1");});
             }
 
             app.UseHttpsRedirection();

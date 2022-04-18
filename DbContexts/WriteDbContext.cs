@@ -20,6 +20,8 @@ namespace SalesAPI.DbContexts
         {
         }
 
+        public virtual DbSet<Header> Header { get; set; }
+        public virtual DbSet<Row> Row { get; set; }
         public virtual DbSet<SalesHeader> SalesHeader { get; set; }
         public virtual DbSet<SalesRow> SalesRow { get; set; }
         public virtual DbSet<TbItem> TbItem { get; set; }
@@ -36,6 +38,32 @@ namespace SalesAPI.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Header>(entity =>
+            {
+                entity.Property(e => e.Address)
+                    .IsRequired()
+                    .HasMaxLength(200);
+
+                entity.Property(e => e.CustomerName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Date).HasColumnType("datetime");
+            });
+
+            modelBuilder.Entity<Row>(entity =>
+            {
+                entity.Property(e => e.ItemName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Price).HasColumnType("numeric(18, 2)");
+
+                entity.Property(e => e.Quantity).HasColumnType("numeric(18, 2)");
+
+                entity.Property(e => e.Total).HasColumnType("numeric(18, 2)");
+            });
+
             modelBuilder.Entity<SalesHeader>(entity =>
             {
                 entity.HasKey(e => e.HsalesId);

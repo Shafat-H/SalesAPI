@@ -7,12 +7,12 @@ using System.Collections.Generic;
 
 namespace SalesAPI.Models.Read
 {
-    public partial class TbItem
+    public partial class Header
     {
-        public long ItemId { get; set; }
-        public string ItemName { get; set; }
-        public long Uomid { get; set; }
-        public string Uomname { get; set; }
-        public bool? IsActive { get; set; }
+        public long HeaderId { get; set; }
+        public long CustomerId { get; set; }
+        public string CustomerName { get; set; }
+        public DateTime Date { get; set; }
+        public string Address { get; set; }
     }
 }
