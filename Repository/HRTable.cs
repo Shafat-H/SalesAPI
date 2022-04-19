@@ -121,6 +121,7 @@ namespace SalesAPI.Repository
                 }
                 data.CustomerName = edit.Hedit.CustomerName;
                 data.Address = edit.Hedit.Address;
+                
 
                 wDbContext.Header.Add(data);
                 await wDbContext.SaveChangesAsync();
@@ -184,7 +185,7 @@ namespace SalesAPI.Repository
                 }
                 if (list2.Count() > 0)
                 {
-                    wDbContext.UpdateRange(list2);
+                    wDbContext.AddRange(list2);
                     await wDbContext.SaveChangesAsync();
                 }
                 return new MessageHelper
