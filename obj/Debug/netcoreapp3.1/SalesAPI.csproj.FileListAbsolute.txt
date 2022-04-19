@@ -48,7 +48,6 @@ F:\Api\SalesAPI\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\sni.dll
 F:\Api\SalesAPI\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp2.0\System.Runtime.Caching.dll
 F:\Api\SalesAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Runtime.Caching.dll
 F:\Api\SalesAPI\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-F:\Api\SalesAPI\obj\Debug\netcoreapp3.1\SalesAPI.csproj.AssemblyReference.cache
 F:\Api\SalesAPI\obj\Debug\netcoreapp3.1\SalesAPI.GeneratedMSBuildEditorConfig.editorconfig
 F:\Api\SalesAPI\obj\Debug\netcoreapp3.1\SalesAPI.AssemblyInfoInputs.cache
 F:\Api\SalesAPI\obj\Debug\netcoreapp3.1\SalesAPI.AssemblyInfo.cs
@@ -65,3 +64,4 @@ F:\Api\SalesAPI\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
 F:\Api\SalesAPI\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
 F:\Api\SalesAPI\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
 F:\Api\SalesAPI\obj\Debug\netcoreapp3.1\SalesAPI.MvcApplicationPartsAssemblyInfo.cs
+F:\Api\SalesAPI\obj\Debug\netcoreapp3.1\SalesAPI.csproj.AssemblyReference.cache

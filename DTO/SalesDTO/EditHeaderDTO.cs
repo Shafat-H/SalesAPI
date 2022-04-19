@@ -1,12 +1,13 @@
 ﻿using System;
 
-namespace SalesAPI.DTO.Header
+namespace SalesAPI.DTO.SalesDTO
 {
-    public class HeaderDTO
+    public class EditHeaderDTO
     {
+        public long HeaderId { get; set; }
         public long CustomerId { get; set; }
         public string CustomerName { get; set; }
-        public DateTime Date { get; set; }
         public string Address { get; set; }
     }
 }
+
