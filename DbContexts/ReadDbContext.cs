@@ -20,6 +20,8 @@ namespace SalesAPI.DbContexts
         {
         }
 
+        public virtual DbSet<ExpenseRegisterHeader> ExpenseRegisterHeader { get; set; }
+        public virtual DbSet<ExpenseRegisterRow> ExpenseRegisterRow { get; set; }
         public virtual DbSet<Header> Header { get; set; }
         public virtual DbSet<Row> Row { get; set; }
         public virtual DbSet<SalesHeader> SalesHeader { get; set; }
@@ -31,13 +33,75 @@ namespace SalesAPI.DbContexts
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Data Source=DESKTOP-PSHD8LV;Initial Catalog=SalesAPI;Connect Timeout=30;Encrypt=False;Trusted_Connection=True;ApplicationIntent=ReadWrite;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ExpenseRegisterHeader>(entity =>
+            {
+                entity.HasKey(e => e.ExpenseRegId);
+
+                entity.Property(e => e.ApproveDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Attachment).HasMaxLength(200);
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(300);
+
+                entity.Property(e => e.ExpenseRegCode)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.Property(e => e.ExpenseRegDate).HasColumnType("datetime");
+
+                entity.Property(e => e.IsActive).HasColumnName("isActive");
+
+                entity.Property(e => e.IsApprove).HasColumnName("isApprove");
+
+                entity.Property(e => e.IsPartner).HasColumnName("isPartner");
+
+                entity.Property(e => e.LastActionDateTime).HasColumnType("datetime");
+
+                entity.Property(e => e.PaymentVoucherCode).HasMaxLength(100);
+
+                entity.Property(e => e.ServerDateTime)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.TotalApproveAmount).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.TotalRequestAmount).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.TypeId).HasComment("1=Expense, 2=Advance");
+
+                entity.Property(e => e.TypeName)
+                    .HasMaxLength(100)
+                    .HasComment("1=Expense, 2=Advance");
+            });
+
+            modelBuilder.Entity<ExpenseRegisterRow>(entity =>
+            {
+                entity.HasKey(e => e.RowId);
+
+                entity.Property(e => e.ApproveAmount).HasColumnType("numeric(18, 4)");
+
+                entity.Property(e => e.ExpenseDate).HasColumnType("datetime");
+
+                entity.Property(e => e.IsActive).HasColumnName("isActive");
+
+                entity.Property(e => e.LastActionDateTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Purpose)
+                    .IsRequired()
+                    .HasMaxLength(300);
+
+                entity.Property(e => e.RequestAmount).HasColumnType("numeric(18, 4)");
+            });
+
             modelBuilder.Entity<Header>(entity =>
             {
                 entity.Property(e => e.Address)

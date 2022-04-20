@@ -33,6 +33,7 @@ namespace SalesAPI
             services.AddHttpContextAccessor();
             services.AddTransient<IItem, TbItem>();
             services.AddTransient<IHRrepo, HRTable>();
+            services.AddTransient<IExpense, Expense>();
             services.AddDbContext<ReadDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<WriteDbContext>(option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddSwaggerGen();

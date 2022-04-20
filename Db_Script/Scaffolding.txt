@@ -3,11 +3,11 @@
 // Final release vertion 1.0.0
 **** Write Scaffold **********************
 //Windows
-scaffold-DbContext "Data Source=DESKTOP-PSHD8LV;Initial Catalog=SalesAPI;Connect Timeout=30;Encrypt=False;Trusted_Connection=True;ApplicationIntent=ReadWrite;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir "Models/Write" -ContextDir "DbContexts" -Context "WriteDbContext"  -t dbo.TbSupplier,dbo.TbItem,dbo.SalesRow,dbo.SalesHeader,dbo.Header,dbo.Row -f
+scaffold-DbContext "Data Source=DESKTOP-PSHD8LV;Initial Catalog=SalesAPI;Connect Timeout=30;Encrypt=False;Trusted_Connection=True;ApplicationIntent=ReadWrite;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir "Models/Write" -ContextDir "DbContexts" -Context "WriteDbContext"  -t dbo.TbSupplier,dbo.TbItem,dbo.SalesRow,dbo.SalesHeader,dbo.Header,dbo.Row,dbo.ExpenseRegisterHeader,dbo.ExpenseRegisterRow -f
 
 **** Read Scaffold ***********************
 //Windows
-scaffold-DbContext "Data Source=DESKTOP-PSHD8LV;Initial Catalog=SalesAPI;Connect Timeout=30;Encrypt=False;Trusted_Connection=True;ApplicationIntent=ReadWrite;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir "Models/Read" -ContextDir "DbContexts" -Context "ReadDbContext"  -t dbo.TbSupplier,dbo.TbItem,dbo.SalesRow,dbo.SalesHeader,dbo.Header,dbo.Row -f
+scaffold-DbContext "Data Source=DESKTOP-PSHD8LV;Initial Catalog=SalesAPI;Connect Timeout=30;Encrypt=False;Trusted_Connection=True;ApplicationIntent=ReadWrite;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir "Models/Read" -ContextDir "DbContexts" -Context "ReadDbContext"  -t dbo.TbSupplier,dbo.TbItem,dbo.SalesRow,dbo.SalesHeader,dbo.Header,dbo.Row,dbo.ExpenseRegisterHeader,dbo.ExpenseRegisterRow -f
  
 
 
