@@ -13,5 +13,6 @@ namespace SalesAPI.IRepository
         public Task<MessageHelper> updateExpense(CommonExpenseDTO update);
         public Task<MessageHelper> deleteExpense(long id);
         public Task<MessageHelper> createExpense(CommonExpenseDTO create);
+        public Task<MessageHelper> acceptExpense(long id, bool Isapprove);
     }
 }

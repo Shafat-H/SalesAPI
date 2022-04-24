@@ -20,7 +20,6 @@ namespace SalesAPI.DTO.ExpenseDTO
         public long ActionBy { get; set; }
         public bool IsActive { get; set; }
         public DateTime LastActionDateTime { get; set; }
-        public DateTime ServerDateTime { get; set; }
         public string Attachment { get; set; }
         public decimal TotalRequestAmount { get; set; }
         public decimal TotalApproveAmount { get; set; }

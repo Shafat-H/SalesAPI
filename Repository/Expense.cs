@@ -27,7 +27,7 @@ namespace SalesAPI.Repository
             {
                 var data = await wDbContext.ExpenseRegisterHeader.Where(x => x.ExpenseRegId == create.ExpenseHeaderDTOs.ExpenseRegId).FirstOrDefaultAsync();
 
-                var totalRequestA = create.ExpenseRowDTOs.Sum(x=>x.RequestAmount);
+                var totalRequestA = create.ExpenseRowDTOs.Sum(x => x.RequestAmount);
 
                 var entity = new Models.Write.ExpenseRegisterHeader
                 {
@@ -46,7 +46,6 @@ namespace SalesAPI.Repository
                     ActionBy = create.ExpenseHeaderDTOs.ActionBy,
                     IsActive = true,
                     LastActionDateTime = create.ExpenseHeaderDTOs.LastActionDateTime,
-                    ServerDateTime = create.ExpenseHeaderDTOs.ServerDateTime,
                     Attachment = create.ExpenseHeaderDTOs.Attachment,
                     TotalRequestAmount = totalRequestA,
                     TotalApproveAmount = create.ExpenseHeaderDTOs.TotalApproveAmount,
@@ -98,16 +97,16 @@ namespace SalesAPI.Repository
         {
             try
             {
-                var data =await wDbContext.ExpenseRegisterHeader.Where(x => x.ExpenseRegId == id).FirstOrDefaultAsync();
+                var data = await wDbContext.ExpenseRegisterHeader.Where(x => x.ExpenseRegId == id).FirstOrDefaultAsync();
 
-                if(data == null)
+                if (data == null)
                 {
                     throw new Exception("Invalid Expense");
                 }
                 wDbContext.ExpenseRegisterHeader.Remove(data);
                 await wDbContext.SaveChangesAsync();
 
-                var data2 = await wDbContext.ExpenseRegisterRow.Where(x=>x.RowId == id).ToListAsync();
+                var data2 = await wDbContext.ExpenseRegisterRow.Where(x => x.ExpenseRegId == data.ExpenseRegId).ToListAsync();
                 wDbContext.ExpenseRegisterRow.RemoveRange(data2);
                 await wDbContext.SaveChangesAsync();
 
@@ -149,7 +148,6 @@ namespace SalesAPI.Repository
                                                       ActionBy = a.ActionBy,
                                                       IsActive = a.IsActive,
                                                       LastActionDateTime = a.LastActionDateTime,
-                                                      ServerDateTime = a.ServerDateTime,
                                                       Attachment = a.Attachment,
                                                       TotalRequestAmount = a.TotalRequestAmount,
                                                       TotalApproveAmount = a.TotalApproveAmount,
@@ -177,7 +175,7 @@ namespace SalesAPI.Repository
                                                   where a.ExpenseRegId == id && a.IsActive == true
                                                   select new ExpenseHeaderDTO
                                                   {
-                                                      ExpenseRegId=a.ExpenseRegId,
+                                                      ExpenseRegId = a.ExpenseRegId,
                                                       ExpenseRegCode = a.ExpenseRegCode,
                                                       ExpenseRegDate = a.ExpenseRegDate,
                                                       AccountId = a.AccountId,
@@ -193,7 +191,6 @@ namespace SalesAPI.Repository
                                                       ActionBy = a.ActionBy,
                                                       IsActive = a.IsActive,
                                                       LastActionDateTime = a.LastActionDateTime,
-                                                      ServerDateTime = a.ServerDateTime,
                                                       Attachment = a.Attachment,
                                                       TotalRequestAmount = a.TotalRequestAmount,
                                                       TotalApproveAmount = a.TotalApproveAmount,
@@ -203,20 +200,20 @@ namespace SalesAPI.Repository
                                                       TypeName = a.TypeName
 
                                                   }).FirstOrDefault());
-                var data2 =await Task.FromResult((from a in wDbContext.ExpenseRegisterRow
-                                             where a.ExpenseRegId == id & a.IsActive == true
-                                             select new ExpenseRowDTO
-                                             {
-                                                 RowId= a.RowId,
-                                                 ExpenseRegId = a.ExpenseRegId,
-                                                 ExpenseDate = a.ExpenseDate,
-                                                 Purpose = a.Purpose,
-                                                 RequestAmount = a.RequestAmount,
-                                                 ApproveAmount = a.ApproveAmount,
-                                                 IsActive = a.IsActive,
-                                                 LastActionDateTime = a.LastActionDateTime,
-                                                 ChartOfAccountId = a.ChartOfAccountId
-                                             }).ToList());
+                var data2 = await Task.FromResult((from a in wDbContext.ExpenseRegisterRow
+                                                   where a.ExpenseRegId == id & a.IsActive == true
+                                                   select new ExpenseRowDTO
+                                                   {
+                                                       RowId = a.RowId,
+                                                       ExpenseRegId = a.ExpenseRegId,
+                                                       ExpenseDate = a.ExpenseDate,
+                                                       Purpose = a.Purpose,
+                                                       RequestAmount = a.RequestAmount,
+                                                       ApproveAmount = a.ApproveAmount,
+                                                       IsActive = a.IsActive,
+                                                       LastActionDateTime = a.LastActionDateTime,
+                                                       ChartOfAccountId = a.ChartOfAccountId
+                                                   }).ToList());
 
                 return new CommonExpenseDTO
                 {
@@ -232,9 +229,181 @@ namespace SalesAPI.Repository
 
         }
 
-        public Task<MessageHelper> updateExpense(CommonExpenseDTO update)
+        public async Task<MessageHelper> updateExpense(CommonExpenseDTO update)
         {
-            throw new System.NotImplementedException();
+
+
+            try
+            {
+                var data = await wDbContext.ExpenseRegisterHeader.Where(x => x.ExpenseRegId == update.ExpenseHeaderDTOs.ExpenseRegId).FirstOrDefaultAsync();
+
+                if (data == null)
+                {
+                    throw new Exception("Expense Not Found");
+                }
+                var totalRequestA = update.ExpenseRowDTOs.Sum(x => x.RequestAmount);
+
+                var totalAprove = update.ExpenseRowDTOs.Sum(x => x.ApproveAmount);
+
+                data.ExpenseRegCode = update.ExpenseHeaderDTOs.ExpenseRegCode;
+                data.BranchId = update.ExpenseHeaderDTOs.BranchId;
+                data.OfficeId = update.ExpenseHeaderDTOs.OfficeId;
+                data.PartnerOrPayeeId = update.ExpenseHeaderDTOs.PartnerOrPayeeId;
+                data.IsPartner = update.ExpenseHeaderDTOs.IsPartner;
+                data.ChartOfAccountId = update.ExpenseHeaderDTOs.ChartOfAccountId;
+                data.Description = update.ExpenseHeaderDTOs.Description;
+                data.IsApprove = update.ExpenseHeaderDTOs.IsApprove;
+                data.ApproveById = update.ExpenseHeaderDTOs.ApproveById;
+                data.ApproveDate = update.ExpenseHeaderDTOs.ApproveDate;
+                data.ActionBy = update.ExpenseHeaderDTOs.ActionBy;
+                data.IsActive = update.ExpenseHeaderDTOs.IsActive;
+                data.LastActionDateTime = DateTime.Now;
+                data.Attachment = update.ExpenseHeaderDTOs.Attachment;
+                data.TotalRequestAmount = totalRequestA;
+                data.TotalApproveAmount = totalAprove;
+                data.PaymentVoucherId = update.ExpenseHeaderDTOs.PaymentVoucherId;
+                data.PaymentVoucherCode = update.ExpenseHeaderDTOs.PaymentVoucherCode;
+                data.TypeId = update.ExpenseHeaderDTOs.TypeId;
+                data.TypeName = update.ExpenseHeaderDTOs.TypeName;
+
+
+                wDbContext.ExpenseRegisterHeader.Update(data);
+                await wDbContext.SaveChangesAsync();
+
+                var list1 = new List<Models.Write.ExpenseRegisterRow>();
+                var list2 = new List<Models.Write.ExpenseRegisterRow>();
+
+                foreach (var item in update.ExpenseRowDTOs)
+                {
+                    if (item.RowId == 0)
+                    {
+                        var entity = new Models.Write.ExpenseRegisterRow()
+                        {
+                            ExpenseRegId = data.ExpenseRegId,
+                            ExpenseDate = DateTime.Now,
+                            Purpose = item.Purpose,
+                            RequestAmount = item.RequestAmount,
+                            ApproveAmount = 0,
+                            IsActive = true,
+                            LastActionDateTime = item.LastActionDateTime,
+                            ChartOfAccountId = item.ChartOfAccountId,
+
+                        };
+                        list1.Add(entity);
+                    }
+                    else
+                    {
+                        var entity = new Models.Write.ExpenseRegisterRow()
+                        {
+                            RowId = item.RowId,
+                            ExpenseRegId = data.ExpenseRegId,
+                            ExpenseDate = DateTime.Now,
+                            Purpose = item.Purpose,
+                            RequestAmount = item.RequestAmount,
+                            ApproveAmount = item.ApproveAmount,
+                            IsActive = item.IsActive,
+                            LastActionDateTime = item.LastActionDateTime,
+                            ChartOfAccountId = item.ChartOfAccountId,
+
+                        };
+                        list2.Add(entity);
+                    }
+                }
+
+                var find = from a in update.ExpenseRowDTOs
+                           where a.ExpenseRegId > 0
+                           select a.RowId;
+
+
+                var ignore = (from a in wDbContext.ExpenseRegisterRow
+                              where !find.Contains(a.RowId) && a.ExpenseRegId == data.ExpenseRegId
+                              select a).ToList();
+
+                wDbContext.ExpenseRegisterRow.RemoveRange(ignore);
+                await wDbContext.SaveChangesAsync();
+
+
+                if (list1.Count() > 0)
+                {
+                    await wDbContext.ExpenseRegisterRow.AddRangeAsync(list1);
+                    await wDbContext.SaveChangesAsync();
+                }
+                if (list2.Count() > 0)
+                {
+                    wDbContext.ExpenseRegisterRow.UpdateRange(list2);
+                    await wDbContext.SaveChangesAsync();
+                }
+
+
+                return new MessageHelper
+                {
+                    statuscode = 200,
+                    Message = "Update Successfully"
+                };
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+
+        }
+
+        public async Task<MessageHelper> acceptExpense(long id, bool Isapprove)
+        {
+            try
+            {
+                var data = await wDbContext.ExpenseRegisterHeader.Where(x => x.ExpenseRegId == id).FirstOrDefaultAsync();
+
+                var data2 = await wDbContext.ExpenseRegisterRow.Where(x => x.ExpenseRegId == data.ExpenseRegId).ToListAsync();
+                if (data == null)
+                {
+                    throw new Exception("Not Found");
+                }
+
+                if (Isapprove == true)
+                {
+                    var total = data2.Sum(x => x.RequestAmount);
+
+                    data.IsApprove = Isapprove;
+                    data.TotalApproveAmount = total;
+
+                    wDbContext.ExpenseRegisterHeader.Update(data);
+                    await wDbContext.SaveChangesAsync();
+
+                    var newlist = new List<decimal>();
+                    foreach (var item in data2)
+                    {
+                        item.ApproveAmount = item.RequestAmount;
+                        
+                        wDbContext.ExpenseRegisterRow.Update(item);
+                        await wDbContext.SaveChangesAsync();
+                    }
+                }
+                else
+                {
+                    data.IsApprove = false;
+
+                    wDbContext.ExpenseRegisterHeader.Update(data);
+                    await wDbContext.SaveChangesAsync();
+                }
+
+
+
+                //..............Message..............//
+                return new MessageHelper
+                {
+                    statuscode = 200,
+                    Message = "Update Successfully"
+                };
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
     }
 }

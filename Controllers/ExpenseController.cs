@@ -50,5 +50,21 @@ namespace SalesAPI.Controllers
             return Ok(data);
         }
 
+        [HttpPut]
+        [Route("updateExpense")]
+        public async Task<IActionResult> updateExpense(CommonExpenseDTO edit)
+        {
+            var data = await repository.updateExpense(edit);
+            return Ok(data);
+        }
+
+        [HttpPut]
+        [Route("acceptExpense")]
+        public async Task<IActionResult> acceptExpense(long id,bool isActive)
+        {
+            var data =  await repository.acceptExpense(id,isActive);
+            return Ok(data);
+        }
+
     }
 }

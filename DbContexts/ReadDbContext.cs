@@ -28,12 +28,13 @@ namespace SalesAPI.DbContexts
         public virtual DbSet<SalesRow> SalesRow { get; set; }
         public virtual DbSet<TbItem> TbItem { get; set; }
         public virtual DbSet<TbSupplier> TbSupplier { get; set; }
+        public virtual DbSet<TblBusinessPartnerTerritory> TblBusinessPartnerTerritory { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Data Source=DESKTOP-PSHD8LV;Initial Catalog=SalesAPI;Connect Timeout=30;Encrypt=False;Trusted_Connection=True;ApplicationIntent=ReadWrite;");
             }
         }
@@ -185,6 +186,35 @@ namespace SalesAPI.DbContexts
                 entity.Property(e => e.Phone)
                     .HasMaxLength(20)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<TblBusinessPartnerTerritory>(entity =>
+            {
+                entity.HasKey(e => e.IntBusinessUnitId)
+                    .HasName("PK_tblBusinessPartnerTerritory_1");
+
+                entity.ToTable("tblBusinessPartnerTerritory");
+
+                entity.Property(e => e.IntBusinessUnitId).HasColumnName("intBusinessUnitId");
+
+                entity.Property(e => e.DteLastActionDateTime)
+                    .HasColumnName("dteLastActionDateTime")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.DteServerDateTime)
+                    .HasColumnName("dteServerDateTime")
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.IntAccountId).HasColumnName("intAccountId");
+
+                entity.Property(e => e.IntActionBy).HasColumnName("intActionBy");
+
+                entity.Property(e => e.IntBusinessPartnerId).HasColumnName("intBusinessPartnerId");
+
+                entity.Property(e => e.IntTerritoryId).HasColumnName("intTerritoryId");
+
+                entity.Property(e => e.IsActive).HasColumnName("isActive");
             });
 
             OnModelCreatingPartial(modelBuilder);
